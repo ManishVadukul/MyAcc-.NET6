@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MyAcc.ViewModels.CustomerSalesReportViewModel>
+    @*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+    *@
+    @{
+    Layout = null;
+    }
+
+    @*
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+
+    @*<button id="btnGenerateInvoice" asp-controller="Order" asp-action="DemoViewAsPDF" class="btn btn-primary">Print Invoice</button>*@
+
+
+    <div class="container" style="font-family:Arial;">
+
+
+
+        <table width="100%">
+            <tr>
+                <td style="vertical-align:bottom;">
+                    <img src="~/images/kagroup.jpg" height="120" />
+                </td>
+                <td style="vertical-align:bottom;">
+                    <p>
+                        KA Group - Wholesale Foods and packaging<br />
+                        Unit 8, Sundon Park Industrial Estate, 198 Camford Way, Luton LU3 3AN<br />
+                        Company Town<br />
+                        Company Postcode
+                    </p>
+                </td>
+
+
+            </tr>
+        </table>
+        <hr />
+
+
+
+        <h2>All Outstanding Invoices</h2>
+
+        <hr />
+
+
+
+
+        <br />
+        @*foreach (var item in Model.GroupBy(u => u.Name, (key, items) => new { Name = key, Cost = items.Sum(u => u.Cost) }))*@
+        @foreach (var businessname in Model.GroupBy(c => c.BusinessName))
+        {
+        <div style="border: 1px solid #c3c3c3">
+            <div>
+                <table cellpadding="1" cellspacing="1" style="background: #c3c3c3; width: 100%; vertical-align:middle;">
+                    <tr>
+                        <td style="width:500px"><h3>@businessname.Key</h3></td>
+                        <td><h3>Total:@businessname.Sum(u => u.FinalTotal)</h3></td>
+                        <td><h3>Total Outstanding:@businessname.Sum(u => u.OutstandingTotal)</h3></td>
+                    </tr>
+                </table>
+            </div>
+
+            <table style="width:100%;">
+                <thead>
+                    <tr class="text-right" style=" height:30px;">
+                        <th style="text-align:left;">Customer Name</th>
+                        @*
+        <th style="text-align:right;">Business Name</th>*@
+                        <th style="text-align:left;">Order/Invoice No</th>
+                        <th style="text-align:left;">Order Date</th>
+                        <th style="text-align:right;">Total</th>
+                        <th style="text-align:right;">Total VAT</th>
+                        <th style="text-align:right;">Total Received</th>
+                        <th style="text-align:right;">Total Outstanding</th>
+                    </tr>
+                </thead>
+                @foreach (var cs in businessname.ToArray())
+                {
+            <tr>
+                <td>@cs.FullName</td>
+                @*
+        <td style="text-align:right;">@cs.BusinessName</td>*@
+                <td style="text-align:left;">@cs.OrderNo</td>
+                <td style="text-align:left;">@string.Format("{0:dd/MM/yyyy}", @cs.OrderDate)</td>
+                <td style="text-align:right;">@cs.FinalTotal</td>
+                <td style="text-align:right;">@cs.TotalVAT</td>
+                <td style="text-align:right;">@cs.TotalReceived</td>
+                <td style="text-align:right;">@cs.OutstandingTotal</td>
+            </tr>
+                }
+            </table>
+            <br />
+
+        </div>
+        <br /><br />
+        }
+        <hr />
+    </div>
+
+    @section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+
+

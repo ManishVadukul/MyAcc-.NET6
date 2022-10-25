@@ -1,0 +1,564 @@
+﻿@model MyAcc.ViewModels.OrderEditViewModel
+@*@@model Tuple<IEnumerable<SelectListItem>, IEnumerable<SelectListItem>, IEnumerable<SelectListItem>>*@
+@{
+    ViewData["Title"] = "Edit Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend></legend>
+    <div class="row">
+        <input type="hidden" id="txtOrderId" name="OrderId" asp-for="OrderId" />
+        <div class="col-md-4">
+            <div class="form-group">
+                Customer Delivery Address
+                <input type="text" id="txtBusinessName" name="BusinessName" class="form-control" readonly="readonly" asp-for="BusinessName" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                Customer Delivery Address
+                <input type="text" id="txtDeliveryAddress" name="DeliveryAddress" class="form-control" readonly="readonly" asp-for="DeliveryAddress" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                Customer Billing Address
+                <input type="text" id="txtBillingAddress" readonly="readonly" name="BillingAddress" class="form-control" asp-for="BillingAddress" />
+            </div>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div class="form-group">
+                Customer Name
+                <input type="text" id="txtFullName" readonly="readonly" name="FullName" class="form-control" asp-for="FullName" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                Total:
+                <input type="text" style="text-align:right" id="txtFinalTotal" readonly="readonly" name="FinalTotal" class="form-control" asp-for="FinalTotal" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Order Number
+                <input type="text" id="txtOrderNo" readonly="readonly" name="OrderNo" class="form-control" asp-for="OrderNo" />
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+
+
+
+<input data-toggle="modal" data-target="#divAddProduct" type="button" value="Add Product Item" name="ProductItem" id="btnAddProductItem" class="btn btn-primary" />
+
+<hr />
+<fieldset>    
+    <table class="table table-bordered table-active" id="tblProductItem">
+        <thead>
+            <tr>
+                <th hidden="hidden">Item Id</th>
+                <th>Product Name</th>
+                <th>Cost</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Tax%</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</fieldset>
+
+
+
+<hr />
+<div class="row">
+    <!--<div class="col-6"></div>
+        <div class="col-2" style="margin-left:40px">-->
+    @*<div class="form-group">
+            <table>
+                <tr>
+                    <td>Total:</td>
+                    <td><input type="text" style="text-align:right" id="txtFinalTotal" value="0.00" readonly="readonly" name="FinalTotal" class="form-control" /></td>
+
+                </tr>
+            </table>
+
+        </div>*@
+    <!--</div>-->
+    <div class="col-md-12 text-right">
+        @*<input  data-toggle="modal" data-target="#divPayment" type="button" value="Order Payment" name="Checkout" id="btnCheckOut" class="btn btn-primary btn-block" />*@
+        <input type="button" value="Update Order" name="Checkout" id="btnCheckOut" class="btn btn-primary" />
+    </div>
+</div>
+<hr />
+
+<div class="modal" tabindex="-1" role="dialog" id="divAddProduct" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select product for order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered" >
+                        <thead>
+                            <tr>                                
+                                <th>Select Product</th>
+                                <th>Cost</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Tax%</th>
+                                <th>Total</th>                                
+                            </tr>
+                            <tr>
+                                <td><select id="Product" class="form-control"><option value="Select">Select</option></select></td>
+                                <td><input type="text" id="txtCost" style="text-align:right" value="0.00" readonly="readonly" name="Cost" class="form-control" /></td>
+                                <td><input type="text" id="txtUnitPrice" style="text-align:right" value="0.00" name="Price" class="form-control" /></td>
+                                <td><input type="text" id="txtQty" style="text-align:right" value="0" name="Qty" class="form-control" /></td>
+                                <td><input type="text" id="txtTax" style="text-align:right" value="0.00" readonly="readonly" name="Tax" class="form-control" /></td>
+                                <td><input type="text" id="txtTotal" style="text-align:right" value="0.00" readonly="readonly" name="Total" class="form-control" /></td>
+
+                            </tr>
+                        </thead>
+                    </table>
+
+                    @*<div class="col-md-5">                
+                        <div class="form-group">
+                            Product Item
+                            <select id="Product" class="form-control">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            Cost
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            Price
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            Qty
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            Tax %
+                            
+
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            Total
+                            
+
+                        </div>
+                    </div>*@                    
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input type="button" id="btnAddToList" value="Add Item" name="AddToList" class="btn btn-success" />
+                <button class="btn btn-danger" id="btnClose" data-dismiss="modal" value="close">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="divPayment" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        Payment Total :
+                        <input id="txtPaymentTotal" style="text-align:right" readonly="readonly" type="text" value="0.00" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        Payment Amount :
+                        <input id="txtPaymentAmount" style="text-align:right" type="text" value="0.00" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        Return Total :
+                        <input id="txtReturnTotal" style="text-align:right" type="text" value="0.00" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        Balance Amount :
+                        <input id="txtBalance" style="text-align:right" readonly="readonly" type="text" value="0.00" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" id="btnPayment" value="Payment">Payment</button>
+                <button class="btn btn-danger" id="btnClose" data-dismiss="modal" value="close">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+
+
+        $(document)
+            .ready(function () {
+
+                var orderId = $("#txtOrderId").val();
+                GetEditOrderDetail(orderId);
+
+                GetProductDropdownList();
+
+
+                $("#Product").val(0);
+                $("#Product").change(function () {
+                    var productId = $("#Product").val();
+                    GetProductDataByProductId(productId);
+                });
+
+                $("#Customer").val(0);
+                $("#Customer").change(function () {
+                    var customerId = $("#Customer").val();
+                    GetCustomerDataByCustomerId(customerId);
+                });
+
+                //GetOrderNumberGenerate();
+
+                //  GetEditOrder(17);
+
+                $("input[type=text]").change(function () {
+                    CalculateSubTotal();
+                });
+
+                $("input[type=text]").keyup(function () {
+                    CalculationBalance();
+                });
+
+
+                $("#btnAddToList").click(function () {
+                    AddToTheItemList();
+                })
+                /* stopping payment modal
+                $("#btnPayment").click(function () {
+                    FinalPayment();
+                });*/
+
+                
+
+                $("#btnCheckOut").click(function () {
+                    FinalPayment();
+                });
+
+
+            });
+
+
+        function FinalPayment() {
+            var objOrderViewModel = {};
+
+            var ListOfOrderDetailViewModel = new Array();
+
+            //ListOfOrderDetailViewModel
+
+            objOrderViewModel.PaymentTypeId = $("#PaymentType").val();
+            objOrderViewModel.CustomerId = $("#Customer").val();
+            objOrderViewModel.FinalTotal = $("#txtFinalTotal").val();
+            objOrderViewModel.OrderNo = $("#txtOrderNo").val();
+            objOrderViewModel.OrderId = $("#txtOrderId").val();
+
+            $("#tblProductItem").find("tr:gt(0)").each(function () {
+                var OrderDetailViewModel = {};
+                OrderDetailViewModel.Total = parseFloat($(this).find("td:eq(6)").text());
+                OrderDetailViewModel.ProductId = parseFloat($(this).find("td:eq(0)").text());
+                OrderDetailViewModel.ProductName = $(this).find("td:eq(1)").text();
+                OrderDetailViewModel.Cost = parseFloat($(this).find("td:eq(2)").text());
+                OrderDetailViewModel.Price = parseFloat($(this).find("td:eq(3)").text());
+                OrderDetailViewModel.Qty = parseFloat($(this).find("td:eq(4)").text());
+                OrderDetailViewModel.Tax = parseFloat($(this).find("td:eq(5)").text());
+                OrderDetailViewModel.OrderDetailId = $(this).find("td:eq(8)").text();
+                ListOfOrderDetailViewModel.push(OrderDetailViewModel);
+            });
+            objOrderViewModel.ListOfOrderDetailViewModel = ListOfOrderDetailViewModel;
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(objOrderViewModel),
+                url: '/Home/Index/',
+                success: function (data) {
+                    alert(data);
+                    window.location.href = "../../Home/Edit/" + objOrderViewModel.OrderId;
+                },
+                error: function () {
+                    alert("There is some problem to adding the data");
+                }
+
+            });
+        }
+
+
+
+        function CalculationBalance() {
+            var FinalAmount = $("#txtPaymentTotal").val();
+            var PaymentAmount = $("#txtPaymentAmount").val();
+            var ReturnAmount = $("#txtReturnTotal").val();
+            var BalanceAmount = parseFloat(FinalAmount) - parseFloat(PaymentAmount) + parseFloat(ReturnAmount);
+            $("#txtBalance").val(parseFloat(BalanceAmount).toFixed(2));
+
+            if (parseFloat(BalanceAmount) >= 0) {
+                $("#btnPayment").removeAttr("disabled");
+            }
+            else {
+                $("#btnPayment").attr("disabled", "disabled");
+            }
+        }
+
+
+        function RemoveItem(productId) {
+            $(productId).closest('tr').remove();
+            FinalTotal();
+        }
+
+        function AddToTheItemList() {
+            var tblProductItemList = $("#tblProductItem");
+            var Cost = $("#txtCost").val();
+            var UnitPrice = $("#txtUnitPrice").val();
+            var Qty = $("#txtQty").val();
+            var Tax = $("#txtTax").val();
+            var ProductId = $("#Product").val();
+            var ItemName = $("#Product option:selected").text();
+
+            var taxc = (Number(UnitPrice) * Number(Qty) * Number(Tax)) / 100;
+            var Total = Number(UnitPrice) * Number(Qty) + Number(taxc);
+
+            var OrderDetailId = 0;
+
+            var ItemList = "<tr><td hidden>" +
+                ProductId + "</td><td>" +
+                ItemName + "</td><td class='text-right'>" +
+                Cost + "</td><td class='text-right'>" +
+                parseFloat(UnitPrice).toFixed(2) + "</td><td class='text-right'>" +
+                Qty + "</td><td class='text-right'>" +
+                parseFloat(Tax).toFixed(2) + "</td><td class='text-right'>" +
+                parseFloat(Total).toFixed(2) + "</td><td style='width:10px;'> <button type='button' value='' name='remove' style=' border:none;' onclick='RemoveItem(this)'><i style='color:red;' class='fas fa-times - alt'></i></button></td><td hidden>" +
+                OrderDetailId + "</tr></tr > ";
+
+            tblProductItemList.append(ItemList);
+            FinalTotal();
+            ResetItem();
+        }
+
+        function FinalTotal() {
+            $("#txtFinalTotal").val("0.00");
+            var FinalTotal = 0.00;
+            $("#tblProductItem").find("tr:gt(0)").each(function () {
+                var Total = parseFloat($(this).find("td:eq(6)").text());
+                FinalTotal += Total;
+                //alert(FinalTotal);
+            });
+            $("#txtFinalTotal").val(parseFloat(FinalTotal).toFixed(2));
+            $("#txtPaymentTotal").val(parseFloat(FinalTotal).toFixed(2));
+            $("#txtBalance").val(parseFloat(FinalTotal).toFixed(2));
+
+        }
+
+        function ResetItem() {
+            $("#txtCost").val("");
+            $("#txtUnitPrice").val("");
+            $("#txtQty").val("");
+            $("#txtTax").val("");
+            $("#Product").val(0);
+            $("#txtTotal").val("");
+        }
+
+        function CalculateSubTotal() {
+            var UnitPrice = $("#txtUnitPrice").val();
+            var Qty = $("#txtQty").val();
+            var Tax = $("#txtTax").val();
+
+
+            //if (Tax == 0.00) {
+            //    var Total = UnitPrice * Qty;
+            //}
+            //else if (Tax == 20)
+            //{
+            //    var taxc = (Number(UnitPrice) * Number(Qty) * 20) / 100;
+            //    var Total = Number(UnitPrice) * Number(Qty) + Number(taxc);
+
+            //}
+            //else if (Tax == 15) {
+            //    var taxc = (Number(UnitPrice) * Number(Qty) * 20) / 100;
+            //    var Total = Number(UnitPrice) * Number(Qty) + Number(taxc);
+            //}
+
+            var taxc = (Number(UnitPrice) * Number(Qty) * Number(Tax)) / 100;
+            var Total = Number(UnitPrice) * Number(Qty) + Number(taxc);
+
+            $("#txtTotal").val(parseFloat(Total).toFixed(2));
+        }
+
+        function GetProductDataByProductId(productId) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataT: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { productid: productId },
+                url: '/Home/GetProductDataByProductId',
+                success: function (data) {
+                    var vdata = data;
+                    $("#txtUnitPrice").val(vdata[0].price);
+                    $("#txtCost").val(vdata[0].cost);
+                    $("#txtTax").val(vdata[0].tax);
+                },
+                error: function () {
+                    alert("There is some problem to get the Unit Price.")
+                }
+            })
+        }
+
+        function GetCustomerDataByCustomerId(customerId) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataT: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { customerId: customerId },
+                url: '/Home/GetCustomerDataByCustomerId',
+                success: function (data) {
+                    var vdata = data;
+                    //alert(vdata[0].fullName);
+                    $("#txtBillingAddress").val(vdata[0].billingaddress);
+                    $("#txtDeliveryAddress").val(vdata[0].deliveryaddress);
+                    $("#txtFullName").val(vdata[0].fullname);
+                },
+                error: function () {
+                    alert("There is some problem to get the customer address.")
+                }
+            })
+        }
+
+        function GetOrderNumberGenerate() {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataT: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: {},
+                url: '/Home/GetOrderNumberGenerate',
+                success: function (data) {
+                    var vdata = data;
+                    $("#txtOrderNo").val(vdata);
+                },
+                error: function () {
+                    alert("There is some problem generating new order number.")
+                }
+            })
+        }
+
+
+        function GetEditOrderDetail(orderId) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataT: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { id: orderId },
+                url: '/Home/GetEditOrderDetail',
+                success: function (data) {
+                    // alert(data[0].productid);
+                    $("#tblProductItem");
+                    $.each(data, function (i, item) {
+                        //   alert(data[0].productid);
+
+                        var rows = "<tr>" + "<td hidden>" + item.productId + "</td>" + "<td>" + item.productName + "</td>" + "<td class='text-right'>" + parseFloat(item.cost).toFixed(2) + "</td>" + "<td class='text-right'>" + parseFloat(item.price).toFixed(2) + "</td>" + "<td class='text-right'>" + (item.qty) + "</td>" + "<td class='text-right'>" + parseFloat(item.tax).toFixed(2) + "</td>" + "<td class='text-right'>" + parseFloat(item.total).toFixed(2) + "</td>" + "<td style='width:10px;'> <button type='button' value='' name='remove' style=' border:none;' onclick='Delete(" + item.orderDetailId + ")'><i style='color:red;' class='fas fa-times - alt'></i></button </td>" + "<td hidden>" + item.orderDetailId + "</td></tr>";
+                        $("#tblProductItem").append(rows);
+                    });                    
+                },
+                error: function () {
+                    alert("There is some problem generating new order number.")
+                }
+            })
+        }
+
+        function Delete(Id) {
+            var url = "/Home/Delete/" + Id;
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function () {                    
+                    //alert("Product item has been deleted.")                    
+                  //  var orderid = $("#txtOrderId").val();
+                     //ele.closest("tr").remove();
+                    //window.location.href = "../../Home/Edit/" + orderid;                    
+                    FinalTotal();
+                    //var orderId = $("#txtOrderId").val();
+                    //GetEditOrderDetail(orderId);
+                },
+                error: function () {
+                    alert("Fails");
+                }
+
+            });
+        }
+
+
+        function GetProductDropdownList() {
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetProductList",
+                data: "{}",
+                success: function (data) {
+                    var s = '<option value="-1">Please Select a Product Item</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                    }
+                    $("#Product").html(s);
+                }
+            });
+        }
+
+
+
+    </script>
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+

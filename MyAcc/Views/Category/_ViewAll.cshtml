@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MyAcc.Models.Category>
+
+
+@await Html.Grid(Model).Named("categoryGrid").Columns(columns =>
+{
+columns.Add(c => c.Name).Sortable(true);
+
+columns.Add().Titled("Edit")
+        .Encoded(false)
+        .Sanitized(false)
+        .SetWidth(30)
+        .RenderValueAs(o => @<a onclick="showInPopup('@Url.Action("Upsert", "Category", new { id = o.CategoryId }, Context.Request.Scheme)','Edit Item Category')" class="btn btn-warning">Edit</a>); @*"><i class="fas fa-pencil-alt" style="color:orange;"></i></a>);*@
+
+columns.Add().Titled("Delete")
+.Encoded(false)
+.Sanitized(false)
+.SetWidth(30)
+.RenderValueAs(o => @<form asp-action="Delete" asp-route-id="@o.CategoryId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline"><button type="submit" style="border:none; background:white">Delete </button></form>); @*<i class="fas fa-trash-alt" style="color:red;"></i></button></form>);*@
+
+}).WithPaging(10).Selectable(true).Sortable().RenderAsync()

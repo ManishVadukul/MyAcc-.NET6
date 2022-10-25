@@ -1,0 +1,291 @@
+﻿@model MyAcc.ViewModels.CustomerSalesReportViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Reports</h2>
+<hr />
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group row">
+                <a class="btn btn-success btn-block" target="_blank" asp-action="AllSalesInvoices" asp-controller="Reports">All Invoices</a>
+
+
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group row">
+                <a class="btn btn-success btn-block" target="_blank" asp-action="AllSalesInvoicesByCustomer" asp-controller="Reports">All Invoices By Customer</a>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group row">
+                @*<a onclick="showInPopup('@Url.Action("_DateRange","Reports",null,Context.Request.Scheme)','Select Date Range')" class="btn btn-primary btn-block">Invoices By Date</a>*@
+                <a href="#" data-toggle="modal" data-target="#dateModal" class="btn btn-success btn-block"> Invoices By Date Range</a>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group row">
+                @*<a href="#" data-toggle="modal" data-target="#CustomerModal" class="btn btn-primary btn-block" id="InvoiceByCustomer"> Invoices By Customer</a>*@
+                <button type="submit" id="InvoiceByCustomer" data-toggle="modal" data-target="#CustomerModal" class=" btn btn-success form-control">Invoices By Customer</button>
+
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group row">
+                <a asp-action="AllOutstandingInvoices" class="btn btn-success btn-block" target="_blank">All Outstanding Invoices</a>
+
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        @*<a data-toggle="modal" data-target="#CustomerModal" class="btn btn-primary btn-block" id="CustomerStatement">Customer Statement Report</a>*@
+                        <button type="submit" id="CustomerStatement" data-toggle="modal" data-target="#CustomerModal" class=" btn btn-success form-control">Statement By Customer</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <hr />
+
+        @*<form asp-controller="Reports" asp-action="AllSalesInvoicesDateRange" method="post">*@
+
+                <div id="dateModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6 p-4 ">
+                                        <div class="form-group row">
+                                            <label>Start Date : </label>
+                                            <input id="txtStartdate" class="form-control" name="SelectedDate" type="text" asp-for="startdate" />
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 p-4">
+                                        <div class="form-group row">
+                                            <label>End Date : </label>
+                                            <input id="txtEnddate" class="form-control" asp-for="enddate" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-8 offset-4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" id="btnSubmit" class=" btn btn-primary form-control">Generate</button>
+                                                @*<a asp-action="AllSalesInvoicesDateRangeReport" class=" btn btn-success form-control">Generate</a>*@
+                                            </div>
+                                            <div class="col">
+                                                <a asp-action="Index" class=" btn btn-success form-control">Close</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="CustomerModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Customer List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12 p-4 ">
+                                        <div class="form-group row">
+                                            <label>Select customer : </label>
+                                            <select id="CustomerId" name="CustomerId" asp-for="Customer.CustomerId" asp-items="Model.CustomerList" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-8 offset-4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit"  id="btnCustomerSubmit" class=" btn btn-primary form-control">Generate</button>
+
+                                            </div>
+                                            <div class="col">
+                                                <a asp-action="Index" class=" btn btn-success form-control">Close</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                
+
+ @*</form>*@
+
+
+                @section Scripts{
+                    <script type="text/javascript">
+
+                        var x;
+
+                        $(function () {                          
+
+                            $('#txtStartdate').datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                autoclose: true,
+                                format: "dd/mm/yyyy",
+                                onClose: function (selectedDate) {
+                                    $("#txtStartdate").val();
+
+                                }
+
+                            });
+
+                            $('#txtEnddate').datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                autoclose: true,
+                                format: "dd/mm/yyyy",
+                                onClose: function (selectedDate) {
+                                    $("#txtEnddate").val();
+
+                                }
+                            });
+              
+                        });
+
+                        $("#InvoiceByCustomer").click(function () {
+                            x = "1";
+                            //alert(x)
+                        })
+
+                        $("#CustomerStatement").click(function () {
+                            x = "2";
+                            
+                        })
+
+                        $("#btnSubmit").click(function () {
+                            InvoiceDateRangeReport();
+                        })
+
+                        $("#btnCustomerSubmit").click(function () {
+                           // alert("In")
+                            
+                            if (x == "1")
+                            {
+                                SalesInvoicesByCustomerName();
+                                
+                            }
+                            
+                            
+                            if (x == "2")
+                            {
+                                CustomerStatementReportByCustomer();
+
+                            }                     
+
+                        })
+
+                      
+
+                        function InvoiceDateRangeReport() {
+                            var consultView = {
+                                startdate: $('#txtStartdate').val(),
+                                enddate: $("#txtEnddate").val()
+                            };
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Reports/AllSalesInvoicesDateRange/',
+                                contentType: 'application/json',
+                                data: JSON.stringify(consultView),
+                                success: function (data) {
+                                    // alert(data);
+                                    // window.location.href = "/Reports/AllSalesInvoicesDateRangeReport/";
+                                    window.open('/Reports/AllSalesInvoicesDateRangeReport/', '_blank');
+                                },
+                                error: function () {
+                                    alert("There is some problem to adding the data");
+                                }
+
+                            });
+                        }
+
+                        function SalesInvoicesByCustomerName() {
+                            var consultView = {
+                                CustomerId: $('#CustomerId').val()
+                            };
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Reports/SalesInvoicesByCustomerName/',
+                                contentType: 'application/json',
+                                data: JSON.stringify(consultView),
+                                success: function (data) {
+                                    // alert(data);
+                                    // window.location.href = "/Reports/SalesInvoicesByCustomer/";
+                                    window.open('/Reports/SalesInvoicesByCustomer/', '_blank');
+                                   
+                                },
+                                error: function () {
+                                    alert("There is some problem to adding the data");
+                                }
+
+                            });
+                        }
+
+                        function CustomerStatementReportByCustomer() {
+                            var consultView = {
+                                CustomerId: $('#CustomerId').val()
+                            };
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Reports/CustomerStatementReportByCustomer/',
+                                contentType: 'application/json',
+                                data: JSON.stringify(consultView),
+                                success: function (data) {
+                                    // alert(data);
+                                    // window.location.href = "/Reports/AllSalesInvoicesDateRangeReport/";
+                                    window.open('/Reports/CustomerStatementReport/', '_blank');
+                                    
+                                },
+                                error: function () {
+                                    alert("There is some problem to adding the data");
+                                }
+
+                            });
+                        }
+
+                    </script>
+
+
+                    <partial name="_ValidationScriptsPartial.cshtml" />
+                }
+
+

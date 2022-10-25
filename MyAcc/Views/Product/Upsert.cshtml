@@ -1,0 +1,97 @@
+﻿@model MyAcc.ViewModels.ProductVM
+@{
+    Layout = null;
+    //  var title = "Create Product";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="upsert" asp-route-id="@Model.Product.ProductId" onsubmit="return ViewAjaxPost(this);" autocomplete="off">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Product.ProductId" />
+            @if (Model.Product.ProductId != 0)
+            {
+                //edit
+             //   title = "Edit Product";
+            }
+            <div class="row">
+                <div class="col-md-6 p-4">
+                    <div class="form-group row">
+                        <label asp-for="Product.Code"></label>
+                        <input asp-for="Product.Code" class="form-control" />
+                        <span asp-validation-for="Product.Code" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Product.Title"></label>
+                        <input asp-for="Product.Title" class="form-control" />
+                        <span asp-validation-for="Product.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Product.Weight"></label>
+                        <input asp-for="Product.Weight" class="form-control" />
+                        <span asp-validation-for="Product.Weight" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <select asp-for="Product.UnitId" asp-items="Model.UnitTypeList" class="form-control"></select>
+                        <span asp-validation-for="Product.UnitId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Product.Price"></label>
+                        <input asp-for="Product.Price" class="form-control" />
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 p-4">
+                    <div class="form-group row">
+                        <label asp-for="Product.Cost"></label>
+                        <input asp-for="Product.Cost" class="form-control" />
+                        <span asp-validation-for="Product.Cost" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Product.TaxId">VAT</label>
+                        <select  asp-for="Product.TaxId" asp-items="Model.TaxTypeList" class="form-control"></select>
+                        <span asp-validation-for="Product.TaxId" class="text-danger"></span>
+
+
+                        @*@Html.LabelFor(m => m.Product.TaxId, "Select TAX Type")
+                        @Html.DropDownListFor(m => m.Product.TaxId, new SelectList(Model.TaxTypeList, "Value", "Text"), new { @class = "form-control", id = "TaxId" })
+                        @Html.ValidationMessageFor(m => m.Product.TaxId, "", new { @class = "error" })*@
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Product.CategoryId">Select Category</label>
+                        <select asp-for="Product.CategoryId" asp-items="Model.CategoryList" class="form-control"></select>
+                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                        @*@Html.LabelFor(m =>m.Product.CategoryId,"Select Product Category")
+        @Html.DropDownListFor(m => m.Product.CategoryId, new SelectList(Model.CategoryList, "Value", "Text"), new { @class = "form-control", id = "CategoryId" })
+        @Html.ValidationMessageFor(m =>m.Product.CategoryId, "", new { @class = "error" })*@
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    @if (Model.Product.ProductId != 0)
+                    {
+                        <partial name="_EditAndBackToListButton" model="Model.Product.ProductId" /> }
+                    else
+                    {
+                        <partial name="_CreateAndBackToListButton" />}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }

@@ -1,0 +1,45 @@
+﻿@model MyAcc.Models.Category
+@{
+
+    Layout = null;
+   // var title = "Create Category";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="upsert" asp-route-id="@Model.CategoryId" onsubmit="return ViewAjaxPost(this);" autocomplete="off">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CategoryId" />
+            @if (Model.CategoryId != 0)
+            {
+                //edit
+          //      title = "Edit Customer";
+            }
+            <div class="row">
+                <div class="col-md-12 p-4 ">
+                    <div class="form-group row">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>    
+                </div>                
+            </div>
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    @if (Model.CategoryId != 0)
+                    {
+                        <partial name="_EditAndBackToListButton" model="Model.CategoryId" /> }
+                    else
+                    {
+                        <partial name="_CreateAndBackToListButton" />}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+

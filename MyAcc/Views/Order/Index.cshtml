@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MyAcc.ViewModels.OrderViewModel>
+
+@{
+    ViewData["Title"] = "ViewAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-primary">Sales/Invoice Order List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a class="btn btn-success" asp-area="" asp-controller="Order" asp-action="Create"><i class="fas fa-plus"></i> &nbsp; Create New Orders</a>
+    </div>
+</div>
+
+<div id="view-all">
+    <partial name="_viewAll" model="Model" />
+
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

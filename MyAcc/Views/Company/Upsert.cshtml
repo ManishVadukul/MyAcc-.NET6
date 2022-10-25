@@ -1,0 +1,79 @@
+﻿@model MyAcc.Models.Company
+@{
+
+    Layout = null;
+   // var title = "Create Company";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="upsert" asp-route-id="@Model.Id" onsubmit="return ViewAjaxPost(this);" autocomplete="off">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            @if (Model.Id != 0)
+            {
+                //edit
+           //     title = "Edit Company";
+            }
+        <div class="row">
+            <div class="col-md-6 p-4 ">
+                <div class="form-group row">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="StreetAddress"></label>
+                    <input asp-for="StreetAddress" class="form-control" />
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="City"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 p-4 ">
+                <div class="form-group row">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="PostalCode"></label>
+                    <input asp-for="PostalCode" class="form-control" />
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="State"></label>
+                    <input asp-for="State" class="form-control" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="IsAuthorizedCompany"></label>
+                    <input asp-for="IsAuthorizedCompany" class="form-control" />
+                    <span asp-validation-for="IsAuthorizedCompany" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    @if (Model.Id != 0)
+                    {
+                        <partial name="_EditAndBackToListButton" model="Model.Id" /> }
+                    else
+                    {
+                        <partial name="_CreateAndBackToListButton" />}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+

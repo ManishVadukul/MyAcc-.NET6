@@ -1,0 +1,91 @@
+﻿@model MyAcc.Models.Supplier
+@{
+
+    Layout = null;
+   // var title = "Create Supplier";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="upsert" asp-route-id="@Model.Id" onsubmit="return ViewAjaxPost(this);" autocomplete="off">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            @if (Model.Id != 0)
+            {
+                //edit
+            //   title = "Edit Supplier";
+            }
+        <div class="row">
+            <div class="col-md-6 p-4 ">
+                <div class="form-group row">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Phone"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Address1"></label>
+                    <input asp-for="Address1" class="form-control" />
+                    <span asp-validation-for="Address1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 p-4">
+                <div class="form-group row">
+                    <label asp-for="Address2"></label>
+                    <input asp-for="Address2" class="form-control" />
+                    <span asp-validation-for="Address2" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Town"></label>
+                    <input asp-for="Town" class="form-control" />
+                    <span asp-validation-for="Town" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="State"></label>
+                    <input asp-for="State" class="form-control" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Postcode"></label>
+                    <input asp-for="Postcode" class="form-control" />
+                    <span asp-validation-for="Postcode" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+            
+        <div class="form-group row">
+            <div class="col-8 offset-4">
+                @if (Model.Id != 0)
+                {
+                    <partial name="_EditAndBackToListButton" model="Model.Id" /> }
+                else
+                {
+                    <partial name="_CreateAndBackToListButton" />}
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+

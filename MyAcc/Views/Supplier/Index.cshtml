@@ -1,0 +1,94 @@
+﻿@model IEnumerable<MyAcc.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-primary">Supplier List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a onclick="showInPopup('@Url.Action("Upsert","Supplier",null,Context.Request.Scheme)','New Supplier')" class="btn btn-primary"><i class="fas fa-plus"></i> &nbsp; Create New Supplier</a>
+    </div>
+</div>
+
+<div id="view-all">
+    @*<partial name="_viewAll" model="Model" />*@
+    @await Html.PartialAsync("_viewAll", Model)
+</div>
+<!--@section Scripts{-->
+@section Scripts{
+<partial name="_ValidationScriptsPartial.cshtml" />
+}
+
+
+
+
+
+
+
+<!--<script>
+
+        $(document).ready(function () {
+
+            datata = $('#tblData').DataTable({
+                "ajax": {
+                    "url": "/Supplier/GetAll"
+                },
+                "columns": [
+                    { "data": "name", "width": "10%" },
+                    { "data": "email", "width": "10%" },
+                    { "data": "phone", "width": "10%" },
+                    { "data": "address1", "width": "10%" },
+                    { "data": "address2", "width": "10%" },
+                    { "data": "town", "width": "10%" },
+                    { "data": "state", "width": "10%" },
+                    { "data": "postcode", "width": "10%" },
+                    {
+                        "data": "id",
+                        "render": function (data) {
+                            return `
+                                <div class="text-center">
+                                    <a onclick=showInPopup("/Supplier/Upsert/${data}") class="btn btn-success text-white" style="cursor:pointer"><i class="fas fa-edit"></i></a>
+                                    <a onclick=Delete("/Supplier/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                                `;
+                        }, "width": "20%"
+                    }
+                ]
+
+            });
+
+        });
+
+        function Delete(url) {
+            swal({
+                title: "Are you sure you want to Delete?",
+                text: "You will not be able to restore the data!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: url,
+                        success: function (data) {
+                            if (data.success) {
+                                toastr.success(data.message);
+                                $('#tblData').DataTable().ajax.reload();
+                            }
+                            else {
+                                toastr.error(data.message);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+    </script>
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}-->

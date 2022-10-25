@@ -1,0 +1,411 @@
+﻿@model MyAcc.ViewModels.PaymentViewModel
+@*@@model Tuple<IEnumerable<SelectListItem>, IEnumerable<SelectListItem>, IEnumerable<SelectListItem>>*@
+@{
+    ViewData["Title"] = "Edit Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-warning {
+        border-color: #d08002;
+        color: #fff;
+        line-height: 1.5;
+    }
+</style>
+
+
+
+<fieldset>
+    <div class="row">
+        <div class="col-md-4"><fieldset><legend>Order Payment</legend></fieldset></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-right"><fieldset><legend><a asp-action="index" asp-controller="order" class="btn btn-warning"> Back To Order List </a></legend></fieldset></div>
+    </div>
+    <hr />
+
+    <div class="row">
+
+        <input type="hidden" id="txtOrderId" name="OrderId" asp-for="@Model._orderHeader.OrderId" />
+        <div class="col-md-4">
+            <div class="form-group">
+                Customer Delivery Address
+                <input type="text" id="txtBusinessName" name="BusinessName" class="form-control" readonly="readonly" asp-for="@Model._orderHeader.BusinessName" />
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                Customer Name
+                <input type="text" id="txtFullName" readonly="readonly" name="FullName" class="form-control" asp-for="@Model._orderHeader.FullName" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Order Number
+                <input type="text" id="txtOrderNo" readonly="readonly" name="OrderNo" class="form-control" asp-for="@Model._orderHeader.OrderNo" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Total:
+                <input type="text" style="text-align:right" id="txtFinalTotal" readonly="readonly" name="FinalTotal" class="form-control" asp-for="@Model._orderHeader.FinalTotal" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                Outstanding Order Balance
+                @{
+                    var style = (@Model._orderHeader.FinalTotal == 0 ? "color:green" : "color:red");
+                }
+                <input type="text" style="text-align:right; background-color:yellow; font-weight:bold; @style " id="txtOutstandingBalance" readonly="readonly" name="OutstandingBalance" class="form-control" />
+
+
+            </div>
+        </div>
+
+        <div class="col-md-4 text-right">
+            <div class="form-group">
+                <br />
+
+                <input data-toggle="modal" data-target="#divPayment" type="button" value="Take Payment" name="Checkout" id="btnCheckout" class="btn btn-primary" />
+                @if (Model._orderOutstanding.FinalTotal == Model._orderOutstanding.OutstandingTotal)
+                {
+                    <input data-toggle="modal" data-target="#divRefund" type="button" value="Refund Payment" name="Refund" id="btnRefundCheckout" hidden class="btn btn-danger" />
+
+                }
+                else
+                {
+                    <input data-toggle="modal" data-target="#divRefund" type="button" value="Refund Payment" name="Refund" id="btnRefundCheckout" class="btn btn-danger" />
+
+                }
+                <a asp-action="PaymentPrint" asp-controller="Payment" asp-route-id="@Model._orderHeader.OrderId" class="btn btn-warning">Print Report</a>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<hr />
+<fieldset>
+    <table class="table" id="tblTransaction">
+        <thead>
+            <tr class="text-right" style="background:#2e3e4e; height:30px; color:#ffffff;">
+                <th style="text-align:left;">Transaction Date</th>
+                <th style="text-align:right;">Transaction Type</th>
+                <th style="text-align:right;">Payment Type</th>
+                <th style="text-align:right;">Amount</th>
+                <th style="text-align:right;">Notes</th>
+            </tr>
+        </thead>
+        @foreach (var od in Model._transaction)
+        {
+    <tr style="background:#f5f5f5;">
+        <td>@od.TransactionDate</td>
+        <td style="text-align:right;">@od.TransactionType</td>
+        <td style="text-align:right;">@od.PaymentType</td>
+        <td style="text-align:right;">@od.Amount</td>
+        <td style="text-align:right;">@od.Notes</td>
+
+
+
+
+    </tr>
+        }
+    </table>
+</fieldset>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="divPayment" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        Order Invoice Total :
+                        <input id="txtOrderTotal" style="text-align:right" type="text" class="form-control" readonly />
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        Outstanding Amount :
+                        <input id="txtOrderOutstanding" style="text-align:right" type="text" class="form-control" readonly />
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        Select Payment Type :
+                        <select id="PaymentTypeId" name="PaymentTypeId" class="form-control"><option value="Select">Select</option></select>
+                        <span asp-validation-for="@Model._tranModel.PaymentTypeId" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        Payment Amount :
+                        <input id="txtPaymentAmount" name="Amount" style="text-align:right" type="text" value="0.00" class="form-control" />
+                        <span asp-validation-for="@Model._tranModel.Amount" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        Notes :
+                        <input id="txtNotes" name="Notes" type="text"  class="form-control" />
+                        <span asp-validation-for="@Model._tranModel.Notes" class="text-danger"></span>
+
+                    </div>                    
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" id="btnPayment" value="Payment">Payment</button>
+                <button class="btn btn-danger" id="btnClose" data-dismiss="modal" value="close">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="divRefund" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        Order Invoice Total :
+                        <input id="txtRefundOrderTotal" style="text-align:right" type="text" class="form-control" readonly />
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        Outstanding Amount :
+                        <input id="txtRefundOrderOutstanding" style="text-align:right" type="text" class="form-control" readonly />
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        Select Payment Type :
+                        <select id="RefundPaymentTypeId" name="PaymentTypeId" class="form-control"><option value="Select">Select</option></select>
+                        <span asp-validation-for="@Model._tranModel.PaymentTypeId" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        Payment Amount :
+                        <input id="txtRefundPaymentAmount" name="Amount" style="text-align:right" type="text" value="0.00" class="form-control" />
+                        <span asp-validation-for="@Model._tranModel.Amount" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        Notes :
+                        <input id="txtRefundNotes" name="Notes" type="text" class="form-control" />
+                        <span asp-validation-for="@Model._tranModel.Notes" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" id="btnRefundPayment" value="Payment">Payment</button>
+                <button class="btn btn-danger" id="btnClose" data-dismiss="modal" value="close">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+
+
+        $(document)
+            .ready(function () {
+
+                var orderId = $("#txtOrderId").val();
+
+                GetPaymentTypeDropdownList();
+                OutstandingBalance();
+                RefundOutstandingBalance()
+
+                //stopping payment modal
+                $("#btnPayment").click(function () {
+                    FinalPayment();
+                    OutstandingBalance();
+                });
+
+                $("#btnRefundPayment").click(function () {
+                    RefundPayment();
+                    RefundOutstandingBalance()
+                });
+
+                $("#btnCheckout").click(function () {
+                    OutstandingBalance();
+                });
+
+                $("#btnRefundCheckout").click(function () {
+                    RefundOutstandingBalance()
+                });
+
+            });
+
+
+        function FinalPayment() {
+            var objTransaction = {};
+
+            objTransaction.PaymentTypeId = $("#PaymentTypeId").val();
+            //objOrderViewModel.CustomerId = $("#Customer").val();
+            objTransaction.Amount = $("#txtPaymentAmount").val();
+            //objOrderViewModel.OrderNo = $("#txtOrderNo").val();
+            objTransaction.OrderId = $("#txtOrderId").val();
+            //objOrderViewModel.TotalVAT = $("#txtTotalVAT").val();
+
+            objTransaction.Notes = $("#txtNotes").val();
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(objTransaction),
+                url: '/Payment/OrderPayment/',
+                success: function (data) {
+                    alert(data);
+                    window.location.href = "../../Payment/OrderPayment/" + objTransaction.OrderId;
+                },
+                error: function () {
+                    alert("There is some problem to adding the data");
+                }
+            });
+        }
+
+
+        function RefundPayment() {
+            var objTransaction = {};
+
+            objTransaction.PaymentTypeId = $("#RefundPaymentTypeId").val();
+            //objOrderViewModel.CustomerId = $("#Customer").val();
+            objTransaction.Amount = $("#txtRefundPaymentAmount").val();
+            //objOrderViewModel.OrderNo = $("#txtOrderNo").val();
+            objTransaction.OrderId = $("#txtOrderId").val();
+            //objOrderViewModel.TotalVAT = $("#txtTotalVAT").val();
+            objTransaction.Notes = $("#txtRefundNotes").val();
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(objTransaction),
+                url: '/Payment/RefundPayment/',
+                success: function (data) {
+                    alert(data);
+                    window.location.href = "../../Payment/OrderPayment/" + objTransaction.OrderId;
+                },
+                error: function () {
+                    alert("There is some problem to adding the data");
+                }
+            });
+        }
+
+
+        function OutstandingBalance() {
+            var FinalAmount = $("#txtFinalTotal").val();
+            var ReceivedAmount = 0.00;
+
+            $("#tblTransaction").find("tr:gt(0)").each(function () {
+                var Total = parseFloat($(this).find("td:eq(3)").text());
+                ReceivedAmount += Total;
+            });
+
+            var TotalOutstaing = parseFloat(FinalAmount) - parseFloat(ReceivedAmount);
+            $("#txtOutstandingBalance").val(parseFloat(TotalOutstaing).toFixed(2));
+
+
+            // for payment modal popup
+            $("#txtOrderOutstanding").val(parseFloat(TotalOutstaing).toFixed(2));
+            $("#txtOrderTotal").val(parseFloat(FinalAmount).toFixed(2));
+
+            if (parseFloat(TotalOutstaing) > 0) {
+                $("#btnCheckout").removeAttr("disabled");
+            }
+            else {
+                $("#btnCheckout").attr("disabled", "disabled");
+            }
+
+
+        }
+
+        function RefundOutstandingBalance() {
+            var FinalAmount = $("#txtFinalTotal").val();
+            var ReceivedAmount = 0.00;
+
+            $("#tblTransaction").find("tr:gt(0)").each(function () {
+                var Total = parseFloat($(this).find("td:eq(3)").text());
+                ReceivedAmount += Total;
+            });
+
+            var TotalOutstaing = parseFloat(FinalAmount) - parseFloat(ReceivedAmount);
+            $("#txtOutstandingBalance").val(parseFloat(TotalOutstaing).toFixed(2));
+
+
+            // for payment modal popup
+            $("#txtRefundOrderOutstanding").val(parseFloat(TotalOutstaing).toFixed(2));
+            $("#txtRefundOrderTotal").val(parseFloat(FinalAmount).toFixed(2));
+
+            if (parseFloat(TotalOutstaing) > 0) {
+                $("#btnRefundCheckout").removeAttr("disabled");
+            }
+            else {
+                $("#btnRefundCheckout").attr("disabled", "disabled");
+            }
+
+        }
+
+
+
+        function GetPaymentTypeDropdownList() {
+            $.ajax({
+                type: "GET",
+                url: "/Payment/GetPaymentTypeList",
+                data: "{}",
+                success: function (data) {
+                    var s = '<option value="-1">Please Select a Product Item</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                    }
+                    $("#PaymentTypeId").html(s);
+                    $("#RefundPaymentTypeId").html(s);
+                    
+                }
+            });
+        }
+
+
+
+
+
+    </script>
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+

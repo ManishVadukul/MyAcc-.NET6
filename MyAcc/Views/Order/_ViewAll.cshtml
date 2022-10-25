@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MyAcc.ViewModels.OrderViewModel>
+
+
+<style>
+    .btn-warning {
+        border-color: #d08002;
+        color: #fff;
+        line-height: 1.5;
+    }
+</style>
+
+@await Html.Grid(Model).Named("orderGrid").Columns(columns =>
+{
+columns.Add(c => c.OrderNo).Sortable(true).Titled("Order Number").SetWidth(70);
+columns.Add(c => c.OrderDate).Sortable(true).Titled("Order Date").Format("{0:d}").SetWidth(70);
+columns.Add(c => c.BusinessName).Sortable(true).Titled("Customer Name").SetWidth(150);
+columns.Add(c => c.FinalTotal).Sortable(true).Titled("Total Amount").Css("text-right").SetWidth(70);
+columns.Add(c => c.TotalReceived).Sortable(true).Titled("Received").Css("text-right").SetWidth(70);
+columns.Add(c => c.OutstandingTotal).Sortable(true).Titled("Outstanding").Css("text-right").SetWidth(100);
+
+
+
+columns.Add()
+.Encoded(false)
+.Sanitized(false)
+.SetWidth(50)
+//.RenderValueAs(o => @<form asp-action="DeliveryNote" asp-route-id="@o.OrderId" class="d-inline"><button type="submit" ><i class="far fa-file-pdf" style="color:blue;"></i></button></form>);
+.RenderValueAs(o => @<form asp-action="DeliveryNote" asp-route-id="@o.OrderId" class="d-inline" target="_blank"><button type="submit" class="btn-primary" >Delivery Note </button></form>); @*<i class="far fa-file-pdf" style="color:blue;"></i></button></form>);*@
+
+columns.Add()
+.Encoded(false)
+.Sanitized(false)
+.SetWidth(30)
+.RenderValueAs(o => @<form asp-action="DemoViewAsPDF" asp-route-id="@o.OrderId" class="d-inline" target="_blank"><button type="submit"  class="btn-primary" >Invoice</button></form>); @*<i class="fa fa-file-pdf" style="color:red;"></i></button></form>);*@
+
+columns.Add()
+.Encoded(false)
+.Sanitized(false)
+.SetWidth(35)
+.RenderValueAs(o => @<form asp-action="OrderPayment" asp-route-id="@o.OrderId" class="d-inline"><button type="submit" class=" btn-info" >Payment </button></form>);@*<i class="fa fa-money-bill" style="color:blue;"></i></button></form>);*@
+
+columns.Add()
+.Encoded(false)
+.Sanitized(false)
+.SetWidth(30)
+.RenderValueAs(o => @<form asp-action="Edit" asp-route-id="@o.OrderId" class="d-inline"><button type="submit"   class="btn-warning"> Edit</button></form>); @*<i class="fas fa-pencil-alt" style="color:orange;"></i></button></form>);*@
+
+columns.Add()
+.Encoded(false)
+.Sanitized(false)
+.SetWidth(30)
+.RenderValueAs(o => @<form asp-action="OrderDelete" asp-route-id="@o.OrderId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline"><button type="submit" class=" btn-danger" >Delete </button></form>); @*< i class="far fa-trash-alt" style="color:red;"></i></button></form>);*@
+
+}).WithPaging(100).Selectable(true).Sortable().SetTableLayout(GridShared.TableLayout.Fixed, "100%", "650px").RenderAsync()
+

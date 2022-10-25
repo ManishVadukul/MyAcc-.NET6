@@ -1,0 +1,28 @@
+﻿@model IEnumerable<MyAcc.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-primary">Item Categories</h2>
+    </div>
+    <div class="col-6 text-right">
+        @*<a class="btn btn-success" asp-area="" asp-controller="Product" asp-action="Index"><i class="fas fa-list"></i> &nbsp;Item List</a>*@
+
+        <a onclick="showInPopup('@Url.Action("Upsert","Category",null,Context.Request.Scheme)','New Item Category')" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Create New Item Category</a>
+    </div>
+</div>
+
+<div id="view-all">
+    @*@<partial name="_viewAll" model="Model" />*@
+
+    @await Html.PartialAsync("_viewAll", Model)
+
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MyAcc.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+
+        </div>
+</div>
+
+        <div class="row">
+            <div class="col-6">
+                <h2 class="text-primary">Customer List</h2>
+            </div>
+            <div class="col-6 text-right">
+                <a onclick="showInPopup('@Url.Action("Upsert","Customer",null,Context.Request.Scheme)','New Customer')" id="btnNewCustomer" name="newcust" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Create New Customer</a>
+            </div>
+        </div>
+
+
+
+
+
+        <div id="view-all">
+            @await Html.PartialAsync("_viewAll", Model)
+        </div>
+
+
+
+        @section Scripts{
+
+            <partial name="_ValidationScriptsPartial.cshtml" />
+        }

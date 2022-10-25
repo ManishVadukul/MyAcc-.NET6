@@ -1,0 +1,81 @@
+﻿@model MyAcc.ViewModels.CustomerSalesReportViewModel
+@{
+
+   // var title = "Select Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Reports</h2>
+<hr />
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <a class="btn btn-primary btn-block" target="_blank" asp-action="AllSalesInvoices" asp-controller="Report" >All Invoices</a>
+                    
+
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <a class="btn btn-primary btn-block" target="_blank" asp-action="AllSalesInvoicesByCustomer" asp-controller="Report">All Invoices By Customer</a>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <a onclick="showInPopup('@Url.Action("_DateRange","Report",null,Context.Request.Scheme)','Select Date Range')" class="btn btn-primary btn-block">Invoices By Date</a>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <a onclick="showInPopup('@Url.Action(" CustomerSalesReportParameter","Report",null,Context.Request.Scheme)','New Customer')" class="btn btn-primary btn-block">Invoices By Customer</a>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <a onclick="showInPopup('@Url.Action(" CustomerSalesReportParameter","Report",null,Context.Request.Scheme)','New Customer')" class="btn btn-primary btn-block">All Invoice Outstanding--- </a>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <a onclick="showInPopup('@Url.Action(" CustomerSalesReportParameter","Report",null,Context.Request.Scheme)','New Customer')" class="btn btn-primary btn-block">Statement By Customer</a>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+<hr />
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            $(".startDate").datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy'
+            }).on('changeDate', function (selected) {
+                var minDate = new Date(selected.date);
+                minDate.setDate(minDate.getDate() + 1);
+                $('.endDate').datepicker('setStartDate', minDate);
+            });
+
+            $(".endDate").datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy'
+            }).on('changeDate', function (selected) {
+                var minDate = new Date(selected.date);
+                minDate.setDate(minDate.getDate() - 1);
+                $('.startDate').datepicker('setEndDate', minDate);
+            });
+        });
+    </script>
+
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+

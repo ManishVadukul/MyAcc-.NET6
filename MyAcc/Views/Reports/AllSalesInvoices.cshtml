@@ -1,0 +1,85 @@
+﻿@model IEnumerable<MyAcc.ViewModels.CustomerSalesReportViewModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    Layout = null;
+}
+
+@*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<link href="~/css/site.css" rel="stylesheet" />
+
+
+@*<button id="btnGenerateInvoice" asp-controller="Order" asp-action="DemoViewAsPDF"  class="btn btn-primary">Print Invoice</button>*@
+
+
+<div class="container" style="font-family:Arial;">
+
+
+
+    <table width="100%">
+        <tr>
+            <td style="vertical-align:bottom;">
+                <img src="~/images/kagroup.jpg" height="120" />
+            </td>
+            <td style="vertical-align:bottom;">
+                <p>
+                    KA Group - Wholesale Foods and packaging<br />
+                    Unit 8, Sundon Park Industrial Estate, 198 Camford Way, Luton LU3 3AN<br />
+                    Company Town<br />
+                    Company Postcode
+                </p>
+            </td>
+
+
+        </tr>
+    </table>
+    <hr />
+
+
+
+    <h2>All Invoices Sales Report</h2>
+
+    <hr />
+
+
+
+
+    <br />
+    
+            <table style="width:100%;">
+                <thead>
+                    <tr class="text-right" style=" height:30px;">
+                        <th style="text-align:left;">Customer Name</th>
+                        <th style="text-align: left;">Business Name</th>
+                        <th style="text-align:left;">Order/Invoice No</th>
+                        <th style="text-align:left;">Order Date</th>
+                        <th style="text-align:right;">Total</th>
+                        <th style="text-align:right;">Total VAT</th>
+                    </tr>
+                </thead>
+                @foreach (var cs in Model)
+                {
+                    <tr>
+                        <td>@cs.FullName</td>
+                        <td style="text-align: left;">@cs.BusinessName</td>
+                        <td style="text-align:left;">@cs.OrderNo</td>
+                        <td style="text-align:left;">@string.Format("{0:dd/MM/yyyy}", @cs.OrderDate)</td>
+                        <td style="text-align:right;">@cs.FinalTotal</td>
+                        <td style="text-align:right;">@cs.TotalVAT</td>
+                    </tr>
+                }
+            </table>
+            <br />
+
+        </div>
+ 
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+
+

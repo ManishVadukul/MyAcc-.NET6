@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/09/2021 16:51:54" ReportInfo.Modified="10/09/2021 17:18:40" ReportInfo.CreatorVersion="2021.4.0.0">
+  <Styles Name="Standard">
+    <Style Name="Title" Font="Arial, 12pt, style=Bold"/>
+    <Style Name="Header" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Group" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Data" Font="Arial, 10pt"/>
+    <Style Name="Footer" Font="Arial, 10pt"/>
+    <Style Name="EvenRows" Fill.Color="WhiteSmoke" Font="Arial, 10pt"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqzP/32u1QtzIsUJqKG+CmmgSDRIg90O6rtrZM8a5r2mZm8OZoT1JRzyjCfR9QHbYzaTW2++SUiaEBOkuvnUjAyjGeRjQ1EmW8/SlaT3McaTVM6WrEhv0ZCQC8L9Nu1HPeAoufkmlAIBKTWN9Im3PCVVJHoahBQ8fLtFcKL2Aui9XtS8/fau59sVNJetpXvrswVYY2L9YhPbdctUC1bK2JSQ==">
+      <TableDataSource Name="Table" Alias="Invoice" DataType="System.Int32" Enabled="true" SelectCommand="SELECT O.OrderId, O.OrderNo, O.OrderDate, O.FinalTotal, O.TotalVAT, O1.ProductName, O1.Price, O1.Qty, O1.Tax, O1.VAT, O1.Total, C.FullName, C.BusinessName, C.Code, C.Phone, C.Email, C.Billingaddress, C.Deliveryaddress&#13;&#10;FROM (&quot;Orders&quot; O INNER JOIN &quot;OrderDetails&quot; O1 ON O.OrderId = O1.OrderId &#13;&#10;) INNER JOIN &quot;Customers&quot; C ON O.CustomerId = C.CustomerId &#13;&#10;Where O.OrderId = @param1">
+        <Column Name="OrderId" DataType="System.Int32"/>
+        <Column Name="OrderNo" DataType="System.String"/>
+        <Column Name="OrderDate" DataType="System.DateTime"/>
+        <Column Name="FinalTotal" DataType="System.Decimal"/>
+        <Column Name="TotalVAT" DataType="System.Decimal"/>
+        <Column Name="ProductName" DataType="System.String"/>
+        <Column Name="Price" DataType="System.Decimal"/>
+        <Column Name="Qty" DataType="System.Int32"/>
+        <Column Name="Tax" DataType="System.Int32"/>
+        <Column Name="VAT" DataType="System.Decimal"/>
+        <Column Name="Total" DataType="System.Decimal"/>
+        <Column Name="FullName" DataType="System.String"/>
+        <Column Name="BusinessName" DataType="System.String"/>
+        <Column Name="Code" DataType="System.String"/>
+        <Column Name="Phone" DataType="System.String"/>
+        <Column Name="Email" DataType="System.String"/>
+        <Column Name="Billingaddress" DataType="System.String"/>
+        <Column Name="Deliveryaddress" DataType="System.String"/>
+        <CommandParameter Name="param1" DataType="22" Expression="[param1]"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="param1" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text1" Width="718.2" Height="37.8" Dock="Fill" Text="Invoice" HorzAlign="Center" VertAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="41.8" Width="718.2" Height="18.9" Condition="[Invoice.OrderId]">
+      <TextObject Name="Text38" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.OrderId]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+      <GroupHeaderBand Name="GroupHeader2" Top="64.7" Width="718.2" Height="18.9" Condition="[Invoice.OrderNo]">
+        <TextObject Name="Text39" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.OrderNo]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+        <GroupHeaderBand Name="GroupHeader3" Top="87.6" Width="718.2" Height="18.9" Condition="[Invoice.OrderDate]">
+          <TextObject Name="Text40" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.OrderDate]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+          <GroupHeaderBand Name="GroupHeader4" Top="110.5" Width="718.2" Height="18.9" Condition="[Invoice.FinalTotal]">
+            <TextObject Name="Text41" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.FinalTotal]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+            <GroupHeaderBand Name="GroupHeader5" Top="133.4" Width="718.2" Height="18.9" Condition="[Invoice.TotalVAT]">
+              <TextObject Name="Text42" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.TotalVAT]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+              <GroupHeaderBand Name="GroupHeader6" Top="156.3" Width="718.2" Height="18.9" Condition="[Invoice.FullName]">
+                <TextObject Name="Text43" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.FullName]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                <GroupHeaderBand Name="GroupHeader7" Top="179.2" Width="718.2" Height="18.9" Condition="[Invoice.BusinessName]">
+                  <TextObject Name="Text44" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.BusinessName]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                  <GroupHeaderBand Name="GroupHeader8" Top="202.1" Width="718.2" Height="18.9" Condition="[Invoice.Code]">
+                    <TextObject Name="Text45" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.Code]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                    <GroupHeaderBand Name="GroupHeader9" Top="225" Width="718.2" Height="18.9" Condition="[Invoice.Phone]">
+                      <TextObject Name="Text46" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.Phone]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                      <GroupHeaderBand Name="GroupHeader10" Top="247.9" Width="718.2" Height="18.9" Condition="[Invoice.Email]">
+                        <TextObject Name="Text47" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.Email]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                        <GroupHeaderBand Name="GroupHeader11" Top="270.8" Width="718.2" Height="18.9" Condition="[Invoice.Billingaddress]">
+                          <TextObject Name="Text48" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.Billingaddress]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                          <GroupHeaderBand Name="GroupHeader12" Top="293.7" Width="718.2" Height="18.9" Condition="[Invoice.Deliveryaddress]">
+                            <TextObject Name="Text49" Width="718.2" Height="18.9" Dock="Fill" Text="[Invoice.Deliveryaddress]" Font="Arial, 10pt, style=Bold" Style="Group"/>
+                            <DataBand Name="Data1" Top="316.6" Width="718.2" Height="349.65" DataSource="Table">
+                              <TextObject Name="Text2" Width="122.85" Height="18.9" Text="OrderId" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text3" Left="122.85" Width="595.35" Height="18.9" Text="[Invoice.OrderId]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text4" Top="18.9" Width="122.85" Height="18.9" Text="OrderNo" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text5" Left="122.85" Top="18.9" Width="595.35" Height="18.9" Text="[Invoice.OrderNo]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text6" Top="37.8" Width="122.85" Height="18.9" Text="OrderDate" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text7" Left="122.85" Top="37.8" Width="595.35" Height="18.9" Text="[Invoice.OrderDate]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text8" Top="56.7" Width="122.85" Height="18.9" Text="FinalTotal" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text9" Left="122.85" Top="56.7" Width="595.35" Height="18.9" Text="[Invoice.FinalTotal]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text10" Top="75.6" Width="122.85" Height="18.9" Text="TotalVAT" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text11" Left="122.85" Top="75.6" Width="595.35" Height="18.9" Text="[Invoice.TotalVAT]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text12" Top="94.5" Width="122.85" Height="18.9" Text="ProductName" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text13" Left="122.85" Top="94.5" Width="595.35" Height="18.9" Text="[Invoice.ProductName]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text14" Top="113.4" Width="122.85" Height="18.9" Text="Price" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text15" Left="122.85" Top="113.4" Width="595.35" Height="18.9" Text="[Invoice.Price]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text16" Top="132.3" Width="122.85" Height="18.9" Text="Qty" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text17" Left="122.85" Top="132.3" Width="595.35" Height="18.9" Text="[Invoice.Qty]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text18" Top="151.2" Width="122.85" Height="18.9" Text="Tax" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text19" Left="122.85" Top="151.2" Width="595.35" Height="18.9" Text="[Invoice.Tax]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text20" Top="170.1" Width="122.85" Height="18.9" Text="VAT" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text21" Left="122.85" Top="170.1" Width="595.35" Height="18.9" Text="[Invoice.VAT]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text22" Top="189" Width="122.85" Height="18.9" Text="Total" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text23" Left="122.85" Top="189" Width="595.35" Height="18.9" Text="[Invoice.Total]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text24" Top="207.9" Width="122.85" Height="18.9" Text="FullName" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text25" Left="122.85" Top="207.9" Width="595.35" Height="18.9" Text="[Invoice.FullName]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text26" Top="226.8" Width="122.85" Height="18.9" Text="BusinessName" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text27" Left="122.85" Top="226.8" Width="595.35" Height="18.9" Text="[Invoice.BusinessName]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text28" Top="245.7" Width="122.85" Height="18.9" Text="Code" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text29" Left="122.85" Top="245.7" Width="595.35" Height="18.9" Text="[Invoice.Code]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text30" Top="264.6" Width="122.85" Height="18.9" Text="Phone" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text31" Left="122.85" Top="264.6" Width="595.35" Height="18.9" Text="[Invoice.Phone]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text32" Top="283.5" Width="122.85" Height="18.9" Text="Email" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text33" Left="122.85" Top="283.5" Width="595.35" Height="18.9" Text="[Invoice.Email]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text34" Top="302.4" Width="122.85" Height="18.9" Text="Billingaddress" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text35" Left="122.85" Top="302.4" Width="595.35" Height="18.9" Text="[Invoice.Billingaddress]" Font="Arial, 10pt" Style="Data"/>
+                              <TextObject Name="Text36" Top="321.3" Width="122.85" Height="18.9" Text="Deliveryaddress" Font="Arial, 10pt, style=Bold" Style="Header"/>
+                              <TextObject Name="Text37" Left="122.85" Top="321.3" Width="595.35" Height="18.9" Text="[Invoice.Deliveryaddress]" Font="Arial, 10pt" Style="Data"/>
+                            </DataBand>
+                            <GroupFooterBand Name="GroupFooter12" Top="670.25" Width="718.2" Height="18.9"/>
+                          </GroupHeaderBand>
+                          <GroupFooterBand Name="GroupFooter11" Top="693.15" Width="718.2" Height="18.9"/>
+                        </GroupHeaderBand>
+                        <GroupFooterBand Name="GroupFooter10" Top="716.05" Width="718.2" Height="18.9"/>
+                      </GroupHeaderBand>
+                      <GroupFooterBand Name="GroupFooter9" Top="738.95" Width="718.2" Height="18.9"/>
+                    </GroupHeaderBand>
+                    <GroupFooterBand Name="GroupFooter8" Top="761.85" Width="718.2" Height="18.9"/>
+                  </GroupHeaderBand>
+                  <GroupFooterBand Name="GroupFooter7" Top="784.75" Width="718.2" Height="18.9"/>
+                </GroupHeaderBand>
+                <GroupFooterBand Name="GroupFooter6" Top="807.65" Width="718.2" Height="18.9"/>
+              </GroupHeaderBand>
+              <GroupFooterBand Name="GroupFooter5" Top="830.55" Width="718.2" Height="18.9"/>
+            </GroupHeaderBand>
+            <GroupFooterBand Name="GroupFooter4" Top="853.45" Width="718.2" Height="18.9"/>
+          </GroupHeaderBand>
+          <GroupFooterBand Name="GroupFooter3" Top="876.35" Width="718.2" Height="18.9"/>
+        </GroupHeaderBand>
+        <GroupFooterBand Name="GroupFooter2" Top="899.25" Width="718.2" Height="18.9"/>
+      </GroupHeaderBand>
+      <GroupFooterBand Name="GroupFooter1" Top="922.15" Width="718.2" Height="18.9"/>
+    </GroupHeaderBand>
+    <PageFooterBand Name="PageFooter1" Top="945.05" Width="718.2" Height="18.9">
+      <TextObject Name="Text50" Width="718.2" Height="18.9" Dock="Fill" Text="[PageN]" HorzAlign="Right" Font="Arial, 10pt" Style="Footer"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,151 @@
+﻿@model MyAcc.ViewModels.InvoiceViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    
+*@
+@{
+    Layout = null;
+}
+
+
+
+@*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<link href="~/css/site.css" rel="stylesheet" />
+
+<style>
+
+    #footer {
+        position: absolute;
+        bottom: 100px;
+        width: 100%;
+        white-space: nowrap;
+        line-height: 10px; /* Vertically center the text there */
+
+    }
+    .breakhere {
+        page-break-after: always;
+            page-break-inside:avoid;
+        
+    }
+
+
+
+</style>
+
+
+@*<button id="btnGenerateInvoice" asp-controller="Order" asp-action="DemoViewAsPDF"  class="btn btn-primary">Print Invoice</button>*@
+
+
+<div class="container" style="font-family:Arial;">
+
+
+
+
+    <input type="hidden" id="txtOrderId" name="OrderId" asp-for="@Model._orderHeader.OrderId" />
+
+    <table width="100%">
+        <tr>
+            <td style="vertical-align:bottom;">
+                <img src="https://localhost:44360/images/kagroup.jpg" height="120" />
+            </td>
+            <td style="vertical-align:bottom;">
+                <p>
+                    KA Group - Wholesale Foods and packaging<br />
+                    Unit 8, Sundon Park Industrial Estate, 198 Camford Way, Luton LU3 3AN<br />
+                    Company Town<br />
+                    Company Postcode
+                </p>
+            </td>
+
+            <td style="vertical-align:bottom;">
+                <h1>Invoice</h1>
+                <p>
+                    Order Date :@string.Format("{0:MM/dd/yyyy}", @Model._orderHeader.OrderDate)<br />
+                    OrderNo :@string.Format("{0:MM/dd/yyyy}", @Model._orderHeader.OrderNo)<br />
+                    Invoice No : <br />
+                    Invoice Date :
+                </p>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    <br />
+
+
+    <table width="100%" style="padding:5px;">
+        <thead>
+            <tr style="text-align:left;">
+                <th>Billing To</th>
+                <th>Delivery To</th>
+            </tr>
+        </thead>
+        <tr>
+            <td style="vertical-align:top;">
+                <p>
+                    @Model._orderHeader.BusinessName<br>
+                    @Model._orderHeader.FullName<br>
+                    @Html.Raw(Html.Encode(@Model._orderHeader.BillingAddress).Replace(",", "<br />"))
+                </p>
+            </td>
+            <td style="vertical-align:top;">
+                <p>
+                    @Html.Raw(Html.Encode(@Model._orderHeader.DeliveryAddress).Replace(",", "<br />"))
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <br />
+
+    <table style="width:100%;">
+        <thead>
+            <tr class="text-right" style="background:#2e3e4e; height:30px; color:#ffffff;">
+                <th style="text-align:left;">Product Name</th>
+                <th style="text-align:right;">Price</th>
+                <th style="text-align:right;">Qty</th>
+                <th style="text-align:right;">Tax%</th>
+                <th style="text-align:right;">VAT</th>
+                <th style="text-align:right;">Total</th>
+            </tr>
+        </thead>
+    </table>
+    <table style="width:100%;">
+        @foreach (var od in Model._orderDetails)
+        {
+            <tr>
+                <td>@od.ProductName</td>
+                <td style="text-align:right;">@od.Price</td>
+                <td style="text-align:right;">@od.Qty</td>
+                <td style="text-align:right;">@od.Tax</td>
+                <td style="text-align:right;">@od.VAT</td>
+                <td style="text-align:right;">@od.Total</td>
+            </tr>
+        }
+    </table>
+
+    <p class="breakhere"></p>
+
+    <footer id="footer">
+
+        <hr />
+        <table style="width:40%; margin-left:530px;  border:1px solid;">
+            <tr style="text-align:right;">
+                <th style="background:grey;color:white;"><span>Total VAT</span></th>
+                <td>@String.Format("{0:0.00}", @Model._orderHeader.TotalVAT)</td>
+            </tr>
+            <tr style="text-align:right;">
+                <th style="background:grey;color:white;"><span>Total</span></th>
+                <td>£@String.Format("{0:0.00}", @Model._orderHeader.FinalTotal)</td>
+            </tr>
+        </table>
+
+
+    </footer>
+
+</div>
+
+
+
+
+

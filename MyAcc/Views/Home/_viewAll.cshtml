@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MyAcc.ViewModels.OrderEditViewModel>
+
+
+@await Html.Grid(Model).Named("orderGrid").Columns(columns =>
+{
+columns.Add(c => c.OrderNo).Sortable(true).Titled("Order Number");
+columns.Add(c => c.OrderDate).Sortable(true).Titled("Order Date");
+columns.Add(c => c.BusinessName).Sortable(true).Titled("Customer Name");
+columns.Add(c => c.FinalTotal).Sortable(true).Titled("Order Total");
+
+columns.Add().Titled("Edit")
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(o => @<form asp-action="Edit" asp-route-id="@o.OrderId" class="d-inline"><button type="submit"><i class="fas fa-pencil-alt" style="color:orange;"></i></button></form>);
+
+    columns.Add().Titled("Delete")
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(o => @<form asp-action="Delete" asp-route-id="@o.OrderId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline"><button type="submit" style="border: none; background: white"><i class="far fa-trash-alt" style="color:red;"></i></button></form>);
+
+    }).WithPaging(10).Sortable().RenderAsync()
+

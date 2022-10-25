@@ -1,0 +1,115 @@
+﻿@using MyAcc.Utility
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MyAcc</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/gridmvc.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />*@
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />*@
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark  bg-primary border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">My .Net Core Test</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                   
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+
+
+            <div class="col-md-2" style="border-right:solid 1px #e5e5e5; min-height:800px;">
+
+
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <a class="btn btn-primary btn-block" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+
+                    @*<a class="btn btn-primary btn-block" asp-area="" asp-controller="Company" asp-action="Index">Companies</a>*@
+
+                    <a class="btn btn-primary btn-block" asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
+
+                    <a class="btn btn-primary btn-block" asp-area="" asp-controller="Product" asp-action="Index">Item List</a>
+
+                    <a class="btn btn-primary btn-block" asp-area="" asp-controller="Category" asp-action="Index">Item List Category</a>
+
+                    <a class="btn btn-primary btn-block" asp-area="" asp-controller="Order" asp-action="Index">Sales</a>
+
+                    <a class="btn btn-primary btn-block" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
+
+
+                }
+
+            </div>
+        <div class="col-md-10">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+        </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="form-modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    @*<div class="loaderbody" id="loaderbody">
+            <div class="loader"></div>
+        </div>*@
+
+    <footer class="border-top footer text-muted bg-primary text-white-50">
+        <div class="container text-white">
+            &copy; 2021 - My Bookkeeping  <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-white"></a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notify.min.js" asp-append-version="true"></script>
+    <script src="~/js/html2pdf.js"></script>
+    <script src="~/js/Grid/gridmvc.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
